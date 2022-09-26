@@ -1,109 +1,99 @@
-﻿using System;
+﻿
 public class Event
 {
-    public string Title;
+    private string title;
+    private DateOnly date;
+    private int maxSeats;
+    public int ReservedSeats { get; private set; }
 
-    public DateOnly date;
-    public int reservedSeats { get; private set; }
-
-    public int maxSeats;
-
-    // Costruttore
-    public Event(string title, DateOnly date, int maxSeats)
+    public Event(string _title, DateOnly _date, int _maxSeats)
     {
-        SetTitle(title);
-        setDate(date);
-        SetMaxSeats(maxSeats);
-        this.reservedSeats = 0;
+        this.Title = _title;
+        this.Date = _date;
+        this.MaxSeats = _maxSeats;
+        this.ReservedSeats = 0;
     }
 
-    //Getters & Setters
-    public string GetTitle()
+    public string Title
     {
-        return Title;
-    }
 
-    public void SetTitle(string value)
-    {
-        string titleTrimmed = String.Concat(value.Where(c => !Char.IsWhiteSpace(c)));
-        try
+        get
         {
-            if (!string.IsNullOrEmpty(titleTrimmed) && titleTrimmed != "")
-                this.Title = value;
+            return Title;
+        }
+        set
+        {
+
+            if (value.Trim().Length != 0)
+            {
+                this.title = value.Trim();
+            }
             else
             {
-                throw new ArgumentException();
-            }
+                throw new Exception("Inserisci un titolo valido");
+            }     
         }
-        catch (ArgumentException e)
+
+    }
+
+
+    public DateOnly Date
+    {
+
+        get
         {
-            Console.WriteLine("{0}: {1}", e.GetType().Name, e.Message);
-            Console.WriteLine("Insert a valid concert title");
+            return date;
+        }
+        set
+        {
+
+                var today = DateOnly.FromDateTime(DateTime.Today);
+
+                if (value > today)
+                    this.date = today;
+                else
+                    throw new Exception("Data inserita non valida");
+            
         }
     }
 
-    public DateOnly GetDate()
-    {
-        return date;
-    }
 
-    public void setDate(DateOnly value)
+    public int MaxSeats
     {
-
-        try
+        get
         {
-            var today = DateOnly.FromDateTime(DateTime.Today);
-
-            if (value > today)
-                this.date = today;
+            return this.maxSeats;
+        }
+        set
+        {
+            if (value > 0)
+                this.maxSeats = value;
             else
-                throw new ArgumentException();
-        }
-        catch (ArgumentException e)
-        {
-            Console.WriteLine("{0}: {1}", e.GetType().Name, e.Message);
-            Console.WriteLine("Date cannot be in the past, insert a valid date");
+                throw new Exception("La capienza massima non può essere < 0 = a 0");
         }
     }
 
-    public int GetMaxSeats()
-    {
-        return maxSeats;
-    }
+    // Costruttore
 
-    private void SetMaxSeats(int value)
-    {
-        if (value > 0)
-            this.maxSeats = value;
-        else
-            throw new ArgumentException("Max Seats value have to be valid number(>0)", "value");
-    }
 
     // Metodi
     public void BookSeats(int seatsNumber)
     {
         if (isValidDate() && LeftSeats() > seatsNumber)
-            this.reservedSeats += seatsNumber;
+            this.ReservedSeats += seatsNumber;
 
 
     }
 
     public void RemoveSeats(int seatsNumber)
     {
-        try
-        {
-            if (isValidDate() && reservedSeats >= seatsNumber)
-                this.reservedSeats += seatsNumber;
+
+            if (isValidDate() && ReservedSeats >= seatsNumber)
+                this.ReservedSeats -= seatsNumber;
             else
             {
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException("Not possible to remove this number of seats cause there no enough reserved seats to remove");
             }
-        }
-        catch (ArgumentOutOfRangeException e)
-        {
-            Console.WriteLine("{0}: {1}", e.GetType().Name, e.Message);
-            Console.WriteLine("Not possible to remove this number of seats cause there no enough reserved seats to remove");
-        }
     }
 
     public bool isValidDate()
@@ -127,19 +117,12 @@ public class Event
 
     public int LeftSeats()
     {
-        try
-        {
-            if (maxSeats - reservedSeats >= 0)
-                return maxSeats - reservedSeats;
+
+            if (maxSeats - ReservedSeats >= 0)
+                return maxSeats - ReservedSeats;
             else
-                throw new FormatException();
-        }
-        catch (FormatException e)
-        {
-            Console.WriteLine("{0}: {1}", e.GetType().Name, e.Message);
-            Console.WriteLine("There no enough seats available for this reservation");
-            throw;
-        }
+                throw new FormatException("posti rimanenti non disponibili");
+        
     }
 
     public override string ToString()
@@ -150,4 +133,5 @@ public class Event
     }
 
 }
+
 
