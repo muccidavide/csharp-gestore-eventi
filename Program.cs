@@ -2,7 +2,7 @@
 Event exEvent2 = new Event("Guns N Roses Live", DateOnly.Parse("2023-5-24"), 1000);
 Event exEvent3 = new Event("Marracash, Live in Milano", DateOnly.Parse("2023-12-2"), 1000);
 
-
+/*
 ////// MILESTONE #2 ///////////
 ///
 // INTERFACCIA UTENTE
@@ -44,7 +44,7 @@ while (response == "si")
 
 Console.WriteLine($"Posti Rimanenti {userEvent.LeftSeats()} su {userEvent.MaxSeats}");
 
-
+*/
 ////// MILESTONE #3 ///////////
 
 ProgrammaEventi exProgramma = new ProgrammaEventi("TicketOne") { };
@@ -60,7 +60,9 @@ foreach (string eventString in ProgrammaEventi.PrintEvents(exProgramma.events))
 
 Console.WriteLine(exProgramma.CountEvents());
 
-exProgramma.RemoveAllEvents();
+//exProgramma.RemoveAllEvents();
+//Console.WriteLine(exProgramma.CountEvents());
 
-
-Console.WriteLine(exProgramma.CountEvents());
+foreach(string e in exProgramma.Print()){
+    Console.WriteLine(e);
+}

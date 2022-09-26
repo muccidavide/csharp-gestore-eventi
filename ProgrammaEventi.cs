@@ -1,10 +1,4 @@
-﻿// INTERFACCIA UTENTE
-
-
-
-
-
-
+﻿
 public class ProgrammaEventi
 {
     private string Title { get; set; }
@@ -65,5 +59,17 @@ public class ProgrammaEventi
     public void RemoveAllEvents()
     {
         events = new List<Event> { };
+    }
+
+    public List<string> Print()
+    {
+        string[] listEvents = PrintEvents(events);
+        List<string> programList= new List<string> { };
+        programList.Add(Title);
+        foreach(string e in listEvents)
+        {
+            programList.Add(e);
+        }
+        return programList;
     }
 }

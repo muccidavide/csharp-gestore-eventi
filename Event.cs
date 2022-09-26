@@ -19,7 +19,7 @@ public class Event
 
         get
         {
-            return Title;
+            return this.title;
         }
         set
         {
@@ -50,7 +50,7 @@ public class Event
                 var today = DateOnly.FromDateTime(DateTime.Today);
 
                 if (value > today)
-                    this.date = today;
+                    this.date = value;
                 else
                     throw new Exception("Data inserita non valida");
             
@@ -129,7 +129,7 @@ public class Event
     {
         string dateStringFormat = date.ToString("dd/MM/yyyy");
 
-        return Title + " - " + dateStringFormat;
+        return dateStringFormat + " - " + Title;
     }
 
 }
