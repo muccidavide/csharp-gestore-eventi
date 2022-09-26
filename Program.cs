@@ -4,6 +4,21 @@ Event exEvent1 = new Event("Metallica on Tour", DateOnly.Parse("2026-3-24"), 100
 Event exEvent2 = new Event("Guns N Roses Live", DateOnly.Parse("2023-5-24"), 1000);
 Event exEvent3 = new Event("Marracash, Live in Milano", DateOnly.Parse("2023-12-2"), 1000);
 
+Conference exConference1 = new Conference("Gianni speak", DateOnly.Parse("2023-12-2"), 1000, "Gianni Loco", 56.30m);
+Conference exConference2 = new Conference("Canta con noi", DateOnly.Parse("2023-12-2"), 1000, "Mario Pini", 36.30m);
+
+ProgrammaEventi exProgramma = new ProgrammaEventi("TicketOne") { };
+
+exProgramma.addEvent(exEvent1);
+exProgramma.addEvent(exEvent2);
+exProgramma.addEvent(exEvent3);
+
+exProgramma.addEvent(exConference1);
+exProgramma.addEvent(exConference2);
+
+ProgrammaEventi.PrintList(exProgramma.events);
+
+
 /*
 ////// MILESTONE #2 ///////////
 ///
@@ -47,7 +62,6 @@ while (response == "si")
 Console.WriteLine($"Posti Rimanenti {userEvent.LeftSeats()} su {userEvent.MaxSeats}");
 
 */
-
 
 /**
 
@@ -100,7 +114,7 @@ while (userProgram == null)
 
 }
 
-while(counter <= 0)
+while (counter <= 0)
 {
     try
     {
@@ -195,4 +209,3 @@ while (userProgram.events.Count() < counter && !terminated)
 
     }
 }
-
