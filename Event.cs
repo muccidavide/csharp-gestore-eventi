@@ -4,7 +4,7 @@ public class Event
     public string Title;
 
     public DateOnly date;
-    int reservedSeats { get; set; }
+    public int reservedSeats { get; private set; }
 
     public int maxSeats;
 
@@ -71,7 +71,7 @@ public class Event
         return maxSeats;
     }
 
-    public void SetMaxSeats(int value)
+    private void SetMaxSeats(int value)
     {
         if (value > 0)
             this.maxSeats = value;
@@ -82,7 +82,7 @@ public class Event
     // Metodi
     public void BookSeats(int seatsNumber)
     {
-        if (isValidDate() && LeftSeats() < seatsNumber)
+        if (isValidDate() && LeftSeats() > seatsNumber)
             this.reservedSeats += seatsNumber;
 
 
@@ -90,11 +90,19 @@ public class Event
 
     public void RemoveSeats(int seatsNumber)
     {
-        if (isValidDate() && reservedSeats < seatsNumber)
-            this.reservedSeats += seatsNumber;
-        else
+        try
         {
-            throw new ArgumentOutOfRangeException("Not possible to remove this number of seats cause there no enough reserved seats to remove");
+            if (isValidDate() && reservedSeats >= seatsNumber)
+                this.reservedSeats += seatsNumber;
+            else
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+        }
+        catch (ArgumentOutOfRangeException e)
+        {
+            Console.WriteLine("{0}: {1}", e.GetType().Name, e.Message);
+            Console.WriteLine("Not possible to remove this number of seats cause there no enough reserved seats to remove");
         }
     }
 
@@ -104,7 +112,7 @@ public class Event
 
         try
         {
-            if (date > today)
+            if (date.CompareTo(today) >= 0)
                 return true;
             else
                 throw new ArgumentException();
@@ -119,10 +127,19 @@ public class Event
 
     public int LeftSeats()
     {
-        if (maxSeats - reservedSeats >= 0)
-            return maxSeats - reservedSeats;
-        else
-            throw new FormatException("There no enough seats available for this reservation");
+        try
+        {
+            if (maxSeats - reservedSeats >= 0)
+                return maxSeats - reservedSeats;
+            else
+                throw new FormatException();
+        }
+        catch (FormatException e)
+        {
+            Console.WriteLine("{0}: {1}", e.GetType().Name, e.Message);
+            Console.WriteLine("There no enough seats available for this reservation");
+            throw;
+        }
     }
 
     public override string ToString()
