@@ -1,7 +1,7 @@
 ﻿
 public class ProgrammaEventi
 {
-    private string Title { get; set; }
+    private string title { get; set; }
 
     public List<Event> events;
 
@@ -9,6 +9,28 @@ public class ProgrammaEventi
     {
         Title = title;
         this.events = new List<Event> { };
+    }
+
+    public string Title
+    {
+
+        get
+        {
+            return this.title;
+        }
+        set
+        {
+
+            if (value.Trim().Length != 0)
+            {
+                this.title = value.Trim();
+            }
+            else
+            {
+                throw new Exception("Inserisci un titolo valido");
+            }
+        }
+
     }
 
     public void addEvent(Event eventToAdd)
@@ -59,6 +81,14 @@ public class ProgrammaEventi
     public void RemoveAllEvents()
     {
         events = new List<Event> { };
+    }
+    public static void PrintList(List<Event> list)
+    {
+        var listEvents = PrintEvents(list);
+        foreach(string s in listEvents)
+        {
+            Console.WriteLine(s);
+        }
     }
 
     public List<string> Print()
